@@ -1,0 +1,119 @@
+! PRUEBA DE TABLA DE TRANSICION
+! LOS ELEMENTOS # DEFINEN TRANSICIONES QUE NO EXISTEN
+! EL ELEMENTO # SERA SUSTITUIDO POR UN CONJUNTO 'X' QUE SOLO LO CONTENDRA A EL
+! LOS CONJUNTOS SE VAN A DENOTAR CON MAYUSCULAS, UNA LETRA DENOTARA TODO UN CONJUNTO
+! TRANSICIONES CON UN ELEMENTO UNICO SE PONDRA EL ELEMENTO CON SU SIMBOLO ORIGINAL
+! UN SIMBOLO EQUIVALE A UNA TRANSICION. EJ. SI EXISTE 'Da+' LA TRANSICION CAMBIA DE
+! DE ESTADO CON D = {0,1,2,3,4,5,6,7,8,9} Û 'a' Û '+'
+! EL ASTERISCO FINAL EN ALGUN ESTADO INDICA SI ES ESTADO FINAL
+!!!!!!!!!!!!!!!!!!!!!!!!!!
+!	> PRUEBA DE TABLA
+!	# 01 # # #
+!	# # 01 # #
+!	# # 1 0 #
+!	# # # 0 1 *
+!	# # 1 0 #
+!
+! SE RECOMIENDA USAR SETS
+! SUSTITUIR !, #, > CON SETS
+
+
+
+
+>NUM_REALES
+# D . # +-
+# D . # #
+# # # D #
+# # # D # *
+# D . # #
+
+>NUM_NATURALES
+# +- D
+# # D
+# # D *
+
+>Operadores de AsignaciÛn
+# +-F/% > # # < =
+# # # = # # #
+# # # > # # #
+# # # # = # # *
+# # # # # # # *
+# # # < # # #
+# # # # # # # *
+
+
+
+
+>IDS
+# L_
+# LD_ *
+
+>Simbolos de puntuación
+# .,;E:?
+# # *
+
+
+>Operadores de agrupación
+# ()[]{}
+# # *
+
+
+
+>SÌmbolos Aritméticos
+# +-/%F
+# # *
+
+
+>Cadena de caracteres
+# " # # ' #
+# # BSNT # # #
+# # BSNT " # #
+# # # # # # *
+# # # # # FSNT
+# # # ' # FSNT
+
+
+
+
+>Operadores de comparaciÛn
+# ! = > < #
+# # # # # =
+# # # # # =
+# # # # # = *
+# # # # # = *
+# # # # # = *
+
+
+
+
+
+
+
+>AsignaciÛn Shift
+# &^|= #
+# # =
+# # # *
+
+
+
+>Incremento - decremento
+# + # - #
+# # + # #
+# # # # # *
+# # # # -
+# # # # # *
+
+
+
+
+>Operadores lÛgicos
+# & # | # !
+# # & # # # *
+# # # # # # *
+# # # # | # *
+# # # # # # *
+# # # # # # *
+
+
+
+

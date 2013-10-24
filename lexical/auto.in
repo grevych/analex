@@ -1,0 +1,125 @@
+
+>NUM_REALES
+# D . # +-
+# D . # #
+# # # D #
+# # # D # *
+# D . # #
+
+
+ 
+
+
+
+>NUM_NATURALES
+# +- D
+# # D
+# # D *
+
+
+>IDS
+# L_
+# LD_ *
+
+
+
+>Comentarios _MODIFICADO
+# / # # # # #
+# # * / # # #
+# # B # # * #
+# # # F N # #
+# # # # # # # *
+# # # # # # /
+# # # # # # # *
+
+
+
+
+
+>Operadores de AsignaciÛn
+# +-*/% > # # < =
+# # # = # # #
+# # # > # # #
+# # # # = # # *
+# # # # # # # *
+# # # < # # #
+# # # # # # # *
+
+
+
+>Simbolos de puntuaciÛn
+# .,;
+# # *
+
+
+>Operadores de agrupaciÛn
+# ()[]{}
+# # *
+
+
+
+>SÌmbolos AritmÈticos
+# +-"/%
+# # *
+
+
+>Cadena de caracteres
+# " # # ' #
+# # T # # #
+# # T " # #
+# # # # # # *
+# # # # # R
+# # # ' # R
+
+
+
+
+>Operadores de comparaciÛn
+# ! = > < #
+# # # # # =
+# # # # # =
+# # # # # = *
+# # # # # = *
+# # # # # = *
+
+
+
+
+>Apuntador
+# - #
+# # >
+# # # *
+
+
+
+>AsignaciÛn Shift
+# &^|= #
+# # =
+# # # *
+
+
+
+>Incremento - decremento
+# + # - #
+# # + # #
+# # # # # *
+# # # # -
+# # # # # *
+
+
+
+
+>Operadores lÛgicos
+# & # | # !
+# # & # # # *
+# # # # # # *
+# # # # | # *
+# # # # # # *
+# # # # # # *
+
+
+>Directivas aqui tenemos el gato como identificador..
+# X #
+# # L
+# # # *
+

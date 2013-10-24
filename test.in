@@ -1,0 +1,30 @@
+
+
+#include "util.h"
+#include "lib/ds/stack.h"
+#include "lib/ds/list.h"
+#include "debugger/debugger.h"
+#include "parser/parser.h"
+
+
+
+
+
+
+int main (int argc, const char* argv[]){ 
+	
+
+    return ( debugger() ) ? 1 :
+           ( parser(argv[1]) ) ? 1 :
+           0;
+	
+     if ( debugger() hola ) return 1;
+     if ( parser(argv[1]) ) return 1;    
+	
+	
+    return 0;
+}
+
+
+
+

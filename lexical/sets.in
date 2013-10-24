@@ -1,0 +1,15 @@
+S AUTOMATA_IN_SPACE
+N AUTOMATA_IN_NEW_LINE
+C AUTOMATA_IN_COMMENT
+T AUTOMATA_IN_TAB
+I AUTOMATA_IN_TITLE
+E AUTOMATA_IN_EMPTY
+F AUTOMATA_IN_FINAL_STATE
+D 0123456789
+L abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+O +-*/^%&|!=><
+P !'·?¿¡‚;:()`´¨
+Y []{}()=$%&/º\|@´¨*`^+–_#<>
+J []{}()=$%&/º\|@´¨çÇ*`^+–_!'·?¿¡‚;:()`´#<>
+B []{}()=$%&/º\|@´çÇ*`^+–_!'·.?¿¡‚;:()`´#<>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789áéíóúàèìòùäëïöü
+F []{}()=$%&/º\|@´çÇ*`^+–_!·.?¿¡‚;:()`´#<>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789áéíóúàèìòùäëïöü
