@@ -1,3 +1,4 @@
 *.out
 *.tmproj
 .DS_Store
+*.pyc
