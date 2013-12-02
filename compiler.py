@@ -19,6 +19,7 @@ import debugger
 import error
 import lexical
 import parser
+import sys
 
 
 

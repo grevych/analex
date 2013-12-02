@@ -1,7 +1,7 @@
 #-*- coding:utf-8 -*-
 
 #import data, automata
-
+#try finally raise except assert
 
 import sys
 import re
@@ -101,53 +101,123 @@ class Lexical:
 
 
     def anasin(self):        
-        #primeros y siguientes
+        
         if not util.GRAMMAR.__len__():
-            #error no existe gramatica
+            print "Error en gramática -> inexistente"
             return
             
-        self.grammar = [{production[0]: production[1]} for production in util.GRAMMAR]
-        self.first = {}
-        self.next = {}
+        self.__grammar = [{production[0]: production[1]} for production in util.GRAMMAR]
+        self.__next = {}
+        self.__first = {}
+        self.__terminals = []
+        self.__nonterminals = []
+        self.__parsing_table = []
         
         
         for production in util.GRAMMAR:
-            self.get_first(production[0])
-            self.get_next(production[0])
+            self.__get_first(production[0])
+            self.__get_next(production[0])
+            
+        self.__get_terminals()
+        self.__get_nonterminals()
+        self.__set_parsing_table()
             
                 
-        print self.grammar
-        print self.first
-        print self.next
-    #try finally raise except assert
+        print 'GRAMATICA -> ', self.__grammar
+        print 'PRIMEROS -> ', self.__first
+        print 'SIGUIENTES -> ', self.__next
+        print 'TERMINALES -> ', self.__terminals
+        print 'NO TERMINALES -> ', self.__nonterminals
+        print '\n\n\nTABLA ->'
+        for i in  self.__parsing_table:
+            print i
     
     
     
-    def get_first(self, key):
-        if self.first.has_key(key):
-            return self.first[key]
+    def __get_terminals(self):
+        for production in util.GRAMMAR:
+            for element in production[1].split():
+                if element.islower() and element not in self.__terminals and element.find('epsilon'):
+                    self.__terminals.append(element)
         
-        self.first[key] = []
+        self.__terminals.append('$')
         
-        for production in self.grammar:
+        
+        
+    def __get_nonterminals(self):
+        for production in util.GRAMMAR:
+            if production[0] not in self.__nonterminals:
+                self.__nonterminals.append(production[0])
+        
+        
+        
+    def __set_parsing_table(self):
+        for nonterminal in self.__nonterminals:  
+            self.__parsing_table.append([-1 for terminal in self.__terminals])
+            
+        index_table = 0
+            
+        for production in util.GRAMMAR:
+            x = self.__nonterminals.index(production[0])
+            element = production[1].split()[0]
+            
+            if not element.find('epsilon'):
+                y = [self.__terminals.index(element) for element in self.__next[production[0]] if element != 'epsilon'] #diferente de epsilon
+                
+                for index in y:
+                    if self.__parsing_table[x][index] == -1:
+                        self.__parsing_table[x][index] =  'epsilon' #'epsilon'
+                    else:
+                        print "Error en tabla de parsing__ %d" % (index_table, )
+                        return
+                        
+            elif element in self.__terminals:
+                y = self.__terminals.index(element)
+                if self.__parsing_table[x][y] == -1:
+                    self.__parsing_table[x][y] =  index_table
+                else:
+                    print "Error en tabla de parsing__ %d" % (index_table, )
+                    return
+                
+            else:
+                y = [self.__terminals.index(element) for element in self.__first[production[0]] if element != 'epsilon'] #diferente de epsilon
+                
+                for index in y:
+                    if self.__parsing_table[x][index] == -1:
+                        self.__parsing_table[x][index] = index_table
+                    else:
+                        print "Error en tabla de parsing %d" % (index_table, )
+                        return
+                        
+            index_table = index_table + 1
+                        
+    
+    
+    def __get_first(self, key):
+        if self.__first.has_key(key):
+            return self.__first[key]
+        
+        self.__first[key] = []
+        
+        for production in self.__grammar:
             if production.has_key(key):
                 elements = production[key].split()
                 if elements[0] != key:
                     if elements[0].islower():
-                        self.first[key].append(elements[0])
+                        self.__first[key].append(elements[0])
                     else:
                         epsilons = 0
                         is_epsilon = False
                         
                         for element in elements:
-                            for first in self.get_first(element):
+                            for first in self.__get_first(element):
                                 if not first.find('epsilon'):
                                     epsilons = epsilons + 1
                                     is_epsilon = True
                                     continue
                                     
-                                if not first in self.first[key]:
-                                    self.first[key].append(first)
+                                if not first in self.__first[key]:
+                                    self.__first[key].append(first)
                             
                             if not is_epsilon:
                                 break
@@ -155,23 +225,23 @@ class Lexical:
                             is_epsilon = False
                         
                         if epsilons == elements.__len__():
-                            if not 'epsilon' in self.first[key]:
-                                self.first[key].append('epsilon')
+                            if not 'epsilon' in self.__first[key]:
+                                self.__first[key].append('epsilon')
                                 
-        return self.first[key]
+        return self.__first[key]
             
         
 
-    def get_next(self, key):
-        if self.next.has_key(key):
-            return self.next[key]
+    def __get_next(self, key):
+        if self.__next.has_key(key):
+            return self.__next[key]
             
-        self.next[key] = []
+        self.__next[key] = []
         
-        if key == 'A' and '$' not in self.next[key]:
-            self.next[key].append('$')   
+        if key == util.GRAMMAR[0][0] and '$' not in self.__next[key]:
+            self.__next[key].append('$')   
         
-        for production in self.grammar:
+        for production in self.__grammar:
             elements = production.values()[0].split()
             index = 0
             
@@ -179,36 +249,36 @@ class Lexical:
                 if element.__eq__(key):
                     if index == elements.__len__() - 1:
                         if production.keys()[0] != key:
-                            for next in self.get_next(production.keys()[0]):
-                                if next not in self.next[key]:
-                                    self.next[key].append(next)
+                            for next in self.__get_next(production.keys()[0]):
+                                if next not in self.__next[key]:
+                                    self.__next[key].append(next)
                     else:
                         if elements[index + 1].islower():
-                            self.next[key].append(elements[index + 1])
+                            self.__next[key].append(elements[index + 1])
                         else:
                             is_epsilon = False
-                            for next in self.get_first(elements[index + 1]):
+                            for next in self.__get_first(elements[index + 1]):
                                 if not next.find('epsilon'):
                                     is_epsilon = True
                                     continue
-                                if next not in self.next[key]:
-                                    self.next[key].append(next)
+                                if next not in self.__next[key]:
+                                    self.__next[key].append(next)
                                     
                             if is_epsilon:
-                                for next in self.get_next(production.keys()[0]):
-                                    if next not in self.next[key]:
-                                        self.next[key].append(next)
+                                for next in self.__get_next(production.keys()[0]):
+                                    if next not in self.__next[key]:
+                                        self.__next[key].append(next)
                         
                 index = index + 1
                         
-        return self.next[key]
+        return self.__next[key]
         
 
 
 
 lex = Lexical("prueba", None)
 lex.run()
-lex.anasin()
+#lex.anasin()
 
 # if lex:
 #     print lex

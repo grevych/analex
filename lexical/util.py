@@ -59,6 +59,33 @@ GRAMMAR = (
     ('F', 'id'),
     ('F', 'cte'),
     
+    
+    # ('S', 'STAT SPRIM'),
+    # ('S', 'WHILE SPRIM'),
+    # ('S', 'IF SPRIM'),
+    # ('SPRIM', 'S'),
+    # ('SPRIM', 'epsilon'),
+    # ('STAT', 'var asig TYPE STATPRIM') ,
+    # ('STATPRIM', 'OPERATIONS TYPE STATPRIM'),
+    # ('STATPRIM', 'puntocoma'),
+    # ('TYPE', 'var'),
+    # ('TYPE', 'num'),
+    # ('WHILE', 'while TYPE compare TYPE llavea S llavec'),
+    # ('IF', 'if TYPE compare TYPE llavea S llavec OR'),
+    # ('OR', 'or ORPRIM'),
+    # ('OR', 'epsilon'),
+    # ('ORPRIM', 'llavea S llavec'),
+    # ('ORPRIM', 'IF'),
+    
+    # ('E', 'T Z'),
+    # ('Z', 'mas T Z'),
+    # ('Z', 'epsilon'),
+    # ('T', 'F Y'),
+    # ('Y', 'mul F Y'),
+    # ('Y', 'epsilon'),
+    # ('F', 'parentesisa E parentesisc'),
+    # ('F', 'num'),
+    
 )
 
 
