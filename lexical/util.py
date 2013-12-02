@@ -79,7 +79,7 @@ GRAMMAR = (
     ('D', 'style equals id Y D'),
     ('D', 'endset'),
     ('E', 'set rpar id J'),
-    ('Y', 'style lpar apos id apos J'),
+    ('Y', 'style lpar apos sele apos J'),
     ('J', 'comma id nametag id J'),
     ('J', 'rpar dotcomma'),
     ('C', 'initemp nametag id T'),
