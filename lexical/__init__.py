@@ -21,6 +21,7 @@ class Lexical:
             
         except IOError:
             print "Could not open file!"
+            return
             #mandar llamar instancia de error y terminar
         
         self.line = 0
@@ -44,6 +45,7 @@ class Lexical:
         self.t = []
         
         
+        
     def run(self):
         with self.source:
             buffer_str = ""
@@ -54,10 +56,10 @@ class Lexical:
                 #sys.stdout.write(char)
  
                 if not char.isspace():
+                    self.line = (self.line, self.line + 1)[char.count('\n')]
                     buffer_str += char
                     continue
                     
-                
                 
                 if is_token_with_del:
                     buffer_str_del += buffer_str + char
@@ -67,8 +69,11 @@ class Lexical:
                         
                         if match:
                             print match.group()
-                            self.t.append(token.name)
+                            self.t.append(token.name.lower())
+                            buffer_str = buffer_str_del.replace(match.group(), '', 1)
+                            self.source.seek(- buffer_str.__len__(), 1)
                             buffer_str_del = buffer_str = ""
+                            is_token_with_del = False
                             break
                 else:
                     
@@ -85,17 +90,72 @@ class Lexical:
                         is_token_with_del = False
                     
                     if not is_token_with_del:
+                        while buffer_str:
+                            has_match = False
+                            for token in self.tokens:
+                                match = token.regexp.match(buffer_str)
+
+                                if match:
+                                    self.t.append(token.name.lower())
+                                    buffer_str = buffer_str.replace(match.group(), '', 1)
+                                    print match.group() + " NUEVO" + buffer_str
+                                    has_match = True
+                                    break
+                                    
+                            if not has_match:
+                                print "NO ACEPTADO"
+                                return
+
+
+            if is_token_with_del:
+                buffer_str_del += buffer_str + char
+                
+                for token in self.tokens_with_del:
+                    match = token.regexp.match(buffer_str_del)
+                    
+                    if match:
+                        print match.group()
+                        self.t.append(token.name.lower())
+                        buffer_str_del = buffer_str = ""
+                        is_token_with_del = False
+                        break
+            else:
+                
+                for token in self.tokens_with_del:
+                    match = token.regexp_at_start.match(buffer_str)
+                    
+                    if match:
+                        print match.group() + " NUEVO EN DELIM"
+                        is_token_with_del = True
+                        buffer_str_del = buffer_str
+                        buffer_str = ""
+                        break
+                        
+                    is_token_with_del = False
+                
+                if not is_token_with_del:
+                    while buffer_str:
+                        has_match = False
                         for token in self.tokens:
                             match = token.regexp.match(buffer_str)
 
                             if match:
-                                print match.group() + " NUEVO"
-                                self.t.append(token.name)
-                                buffer_str = ""
+                                self.t.append(token.name.lower())
+                                buffer_str = buffer_str.replace(match.group(), '', 1)
+                                print match.group() + " NUEVO" + buffer_str
+                                has_match = True
                                 break
-                
-                print buffer_str + "|ACEPTADO?"
+                                
+                        if not has_match:
+                            print "NO ACEPTADO"
+                            return
+            
 
+            if buffer_str:
+                print buffer_str
+                print "NO ACEPTADO"
+                return 
+                
         print self.t
 
 
@@ -162,12 +222,12 @@ class Lexical:
             element = production[1].split()[0]
             
             if not element.find('epsilon'):
-                y = [self.__terminals.index(element) for element in self.__next[production[0]] if element != 'epsilon'] #diferente de epsilon
+                y = [self.__terminals.index(elem) for elem in self.__next[production[0]] if elem != 'epsilon'] #diferente de epsilon
                 
                 for index in y:
                     if self.__parsing_table[x][index] == -1:
                         self.__parsing_table[x][index] =  'epsilon' #'epsilon'
-                    else:
+                    elif self.__parsing_table[x][y] != index_table:
                         print "Error en tabla de parsing__ %d" % (index_table, )
                         return
                         
@@ -175,17 +235,17 @@ class Lexical:
                 y = self.__terminals.index(element)
                 if self.__parsing_table[x][y] == -1:
                     self.__parsing_table[x][y] =  index_table
-                else:
-                    print "Error en tabla de parsing__ %d" % (index_table, )
+                elif self.__parsing_table[x][y] != index_table:
+                    print "Error en tabla de parsing_ %d %d %d %s" % (index_table, x, y, element)
                     return
                 
             else:
-                y = [self.__terminals.index(element) for element in self.__first[production[0]] if element != 'epsilon'] #diferente de epsilon
+                y = [self.__terminals.index(elem) for elem in self.__first[element] if elem != 'epsilon'] #diferente de epsilon
                 
                 for index in y:
                     if self.__parsing_table[x][index] == -1:
                         self.__parsing_table[x][index] = index_table
-                    else:
+                    elif self.__parsing_table[x][y] != index_table:
                         print "Error en tabla de parsing %d" % (index_table, )
                         return
                         
@@ -278,7 +338,7 @@ class Lexical:
 
 lex = Lexical("prueba", None)
 lex.run()
-#lex.anasin()
+lex.anasin()
 
 # if lex:
 #     print lex
